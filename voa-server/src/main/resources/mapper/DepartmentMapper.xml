@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangkehui.voaserver.mapper.DepartmentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zhangkehui.voaserver.pojo.Department">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="parentId" property="parentId" />
+        <result column="depPath" property="depPath" />
+        <result column="enabled" property="enabled" />
+        <result column="isParent" property="isParent" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, parentId, depPath, enabled, isParent
+    </sql>
+
+    <resultMap id="DepartmentwithChildren" type="com.zhangkehui.voaserver.pojo.Department" extends="BaseResultMap">
+        <collection property="children" ofType="com.zhangkehui.voaserver.pojo.Department" select="com.zhangkehui.voaserver.mapper.DepartmentMapper.getAllDepartmentByParentId" column="id">
+        </collection>
+    </resultMap>
+    <!--获取所有子部门-->
+    <select id="getAllDepartmentByParentId" resultMap="DepartmentwithChildren">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_department
+        where
+        parentId=#{parentId}
+    </select>
+
+    <!--添加部门-->
+    <!--
+        statementType 标记操作SQL的对象
+        CALLABLE 执行存储过程
+        STATEMENT 直接操作SQL 不进行预编译 获取数据：$
+        PREPARED 预处理 参数 进行预编译 获取数据：# （默认）
+    -->
+    <select id="addDep" statementType="CALLABLE">
+        call addDep(#{name,mode=IN,jdbcType=VARCHAR},#{parentId,mode=IN,jdbcType=INTEGER},#{enabled,mode=IN,jdbcType=BOOLEAN},#{result,mode=OUT,jdbcType=INTEGER},#{id,mode=OUT,jdbcType=INTEGER})
+    </select>
+
+    <!--删除部门-->
+    <select id="deleteDep" statementType="CALLABLE">
+        call deleteDep(#{id,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})
+    </select>
+</mapper>

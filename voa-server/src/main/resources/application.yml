@@ -1,0 +1,47 @@
+server:
+  port: 8081
+spring:
+  #数据源配置
+  datasource:
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://localhost:3366/yeb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    #连接池
+    hikari:
+      #连接池名
+      pool-name: DateHikariCP
+      #最小空闲连接数
+      minimum-idle: 5
+mybatis-plus:
+  #映射文件位置
+  mapper-locations: classpath:/mapper/*.xml
+  #实体类位置,数据返回类型别名 在写mapper.xml中的sql标签 返回类型 就不用写那么长的包名了 直接写类名就行了
+  type-aliases-package: com.zhangkehui.voaserver.pojo
+  configuration:
+    #自动驼峰命名
+    map-underscore-to-camel-case: false
+#日志打印 mybatis sql
+logging:
+  level:
+    com.zhangkehui.voaserver.mapper: debug
+
+redis:
+  timeout: 10000ms        #连接超时时间
+  host: 127.0.0.1         #redis服务器地址
+  port: 6379              #redis服务器端口
+  database: 0             #redis数据库 默认选0号数据库
+  lettuce:
+    pool:
+      max-active: 1024            #最大连接数
+      max-wait: 10000ms           #最大连接阻塞等待时间，单位毫秒，默认-1
+      max-idle: 200               #最大空闲连接 默认8
+      min-idle: 5                 #最小空闲连接 默认0
+#jwt 配置
+jwt:
+  tokenHeader: Authorization
+  #密钥
+  secret: voa-secret
+  #有效时间
+  expiration: 604800
+  tokenHead: Bearer
