@@ -13,6 +13,17 @@ spring:
       pool-name: DateHikariCP
       #最小空闲连接数
       minimum-idle: 5
+  #rabbitmq配置
+  rabbitmq:
+    username: guest
+    password: guest
+    host: 192.168.64.101
+    port: 5672
+    #消息失败回调
+    publisher-returns: true
+    #消息确认回调
+    publisher-confirm-type: correlated
+
 mybatis-plus:
   #映射文件位置
   mapper-locations: classpath:/mapper/*.xml
