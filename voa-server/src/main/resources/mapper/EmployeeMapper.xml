@@ -150,4 +150,49 @@
         </if>
         order by e.id
     </select>
+
+    <resultMap id="EmployeeWithSalary" type="com.zhangkehui.voaserver.pojo.Employee" extends="BaseResultMap">
+        <association property="salary" javaType="com.zhangkehui.voaserver.pojo.Salary">
+            <id column="sid" property="id"></id>
+            <result column="sbasicSalary" property="basicSalary"/>
+            <result column="sbonus" property="bonus"/>
+            <result column="slunchSalary" property="lunchSalary"/>
+            <result column="strafficSalary" property="trafficSalary"/>
+            <result column="sallSalary" property="allSalary"/>
+            <result column="spensionBase" property="pensionBase"/>
+            <result column="spensionPer" property="pensionPer"/>
+            <result column="smedicalBase" property="medicalBase"/>
+            <result column="smedicalPer" property="medicalPer"/>
+            <result column="saccumulationFundBase" property="accumulationFundBase"/>
+            <result column="saccumulationFundPer" property="accumulationFundPer"/>
+            <result column="sname" property="name"/>
+        </association>
+        <association property="department" javaType="com.zhangkehui.voaserver.pojo.Department">
+            <result column="dname" property="name"></result>
+        </association>
+    </resultMap>
+
+    <!--获取所有员工工资账套-->
+    <select id="getEmployeeWithSalary" resultMap="EmployeeWithSalary">
+        select e.*,
+        d.name as dname,
+        s.id as sid,
+        s.basicSalary as sbasicSalary,
+        s.bonus as sbonus,
+        s.lunchSalary as slunchSalary,
+        s.trafficSalary as strafficSalary,
+        s.allSalary as sallSalary,
+        s.pensionBase as spensionBase,
+        s.pensionPer as spensionPer,
+        s.medicalBase as smedicalBase,
+        s.medicalPer as smedicalPer,
+        s.accumulationFundBase as saccumulationFundBase,
+        s.accumulationFundPer as saccumulationFundPer,
+        s.name as sname
+        from
+        t_employee as e left join
+        t_salary as s on e.salaryId = s.id left join
+        t_department as d on e.departmentId = d.id
+        order by e.id
+    </select>
 </mapper>
