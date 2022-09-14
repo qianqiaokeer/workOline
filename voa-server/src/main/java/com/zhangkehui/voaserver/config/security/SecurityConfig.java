@@ -102,6 +102,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(
                 "/login",
                 "/logout",
+                "/ws/**",
                 "/css/**",
                 "/js/**",
                 "/doc.html",
