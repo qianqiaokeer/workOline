@@ -9,6 +9,7 @@ import com.zhangkehui.voaserver.service.IEmployeeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.zhangkehui.voaserver.service.IMailLogService;
+import com.zhangkehui.voaserver.utils.EasyPoiUtil;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,5 +124,23 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         IPage<Employee> employeeWithSalary = employeeMapper.getEmployeeWithSalary(page);
         RespPageBean respPageBean = new RespPageBean(employeeWithSalary.getTotal(), employeeWithSalary.getRecords());
         return respPageBean;
+    }
+
+    @Override
+    public void setHiddColumn(List<Employee> list, Boolean value,List<String> columnNameList) {
+        if (list.size()>0) {
+            for (Employee vo : list) {
+                EasyPoiUtil<Employee> easyPoiUtil = new EasyPoiUtil<>();
+                easyPoiUtil.t = vo;
+                // 是否导出 参与状态 一列  true 导出   false 不导出
+                try {
+                    for (String columnName : columnNameList) {
+                        easyPoiUtil.hiddColumn(columnName, value);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

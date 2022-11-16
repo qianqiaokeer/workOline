@@ -55,4 +55,6 @@ public interface IEmployeeService extends IService<Employee> {
      * @return
      */
     RespPageBean getEmployeeWithSalary(Integer currentPage,Integer size);
+
+    void setHiddColumn(List<Employee> list, Boolean value,List<String> columnNameList);
 }

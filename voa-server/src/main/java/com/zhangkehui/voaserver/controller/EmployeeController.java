@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -130,6 +131,11 @@ public class EmployeeController {
     public void exportEmployee(HttpServletResponse response){
         //拿到所有员工list
         List<Employee> list = employeeService.getEmployee(null);
+        //隐藏指定列
+        List<String> columnNameList = new ArrayList<>();
+        columnNameList.add("gender");
+        columnNameList.add("birthday");
+        employeeService.setHiddColumn(list,true,columnNameList);
         ExportParams params = new ExportParams("员工表", "员工表", ExcelType.HSSF);
         Workbook workbook = ExcelExportUtil.exportExcel(params, Employee.class, list);
         ServletOutputStream outputStream = null;

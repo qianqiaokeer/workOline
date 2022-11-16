@@ -44,12 +44,12 @@ public class Employee implements Serializable {
     private String name;
 
     @ApiModelProperty(value = "性别")
-    @Excel(name = "性别")
+    @Excel(name = "性别",isColumnHidden = false)
     private String gender;
 
     @ApiModelProperty(value = "出生日期")
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
-    @Excel(name = "出生日期",width = 20,format = "yyyy-MM-dd")
+    @Excel(name = "出生日期",width = 20,format = "yyyy-MM-dd",isColumnHidden = false)
     private LocalDate birthday;
 
     @ApiModelProperty(value = "身份证号")
